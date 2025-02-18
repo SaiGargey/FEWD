@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .cv-upload {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Candidate Table</h2>
+
+<table id="candidateTable">
+    <thead>
+        <tr>
+            <th>Serial No</th>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Submit CV</th>
+            <th>Projects</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Rows will be added here dynamically -->
+    </tbody>
+</table>
+
+<script>
+    const candidates = [
+        { name: "Alice Johnson", image: "https://via.placeholder.com/100", projects: "https://github.com/alice" },
+        { name: "Bob Smith", image: "https://via.placeholder.com/100", projects: "https://github.com/bob" },
+        { name: "Charlie Brown", image: "https://via.placeholder.com/100", projects: "https://github.com/charlie" },
+        // Add more candidates as needed
+    ];
+
+    const tableBody = document.getElementById('candidateTable').getElementsByTagName('tbody')[0];
+
+    candidates.forEach((candidate, index) => {
+        const row = tableBody.insertRow();
+        
+        // Serial Number
+        const cell1 = row.insertCell(0);
+        cell1.textContent = index + 1;
+
+        // Name
+        const cell2 = row.insertCell(1);
+        cell2.textContent = candidate.name;
+
+        // Image
+        const cell3 = row.insertCell(2);
+        const img = document.createElement('img');
+        img.src = candidate.image;
+        img.alt = candidate.name;
+        img.style.width = '100px';
+        cell3.appendChild(img);
+
+        // Submit CV
+        const cell4 = row.insertCell(3);
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.pdf';
+        input.onchange = function() {
+            const cvUpload = document.createElement('div');
+            cvUpload.className = 'cv-upload';
+            cvUpload.textContent = `Uploaded CV: ${input.files[0].name}`;
+            cell4.appendChild(cvUpload);
+            cvUpload.style.display = 'block';
+        };
+        cell4.appendChild(input);
+
+        // Projects Link
+        const cell5 = row.insertCell(4);
+        const projectLink = document.createElement('a');
+        projectLink.href = candidate.projects;
+        projectLink.textContent = "View Projects";
+        projectLink.target = "_blank";
+        cell5.appendChild(projectLink);
+    });
+</script>
+
+</body>
+</html>
